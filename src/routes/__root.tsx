@@ -32,10 +32,14 @@ export const Route = createRootRoute({
       { title: "אורה רוזנטלר — ייעוץ משכנתאות מקצועי" },
       { name: "description", content: "אורה רוזנטלר — יועצת משכנתאות מובילה. ליווי אישי, חיסכון בעשרות אלפי שקלים והשגת תנאי המשכנתא הטובים ביותר." },
       { name: "author", content: "אורה רוזנטלר" },
-      { property: "og:title", content: "אורה רוזנטלר — ייעוץ משכנתאות" },
-      { property: "og:description", content: "ליווי אישי לקבלת המשכנתא המשתלמת ביותר עבורכם." },
+      { property: "og:title", content: "אורה רוזנטלר — ייעוץ משכנתאות מקצועי" },
+      { property: "og:description", content: "אורה רוזנטלר — יועצת משכנתאות מובילה. ליווי אישי, חיסכון בעשרות אלפי שקלים והשגת תנאי המשכנתא הטובים ביותר." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "אורה רוזנטלר — ייעוץ משכנתאות מקצועי" },
+      { name: "twitter:description", content: "אורה רוזנטלר — יועצת משכנתאות מובילה. ליווי אישי, חיסכון בעשרות אלפי שקלים והשגת תנאי המשכנתא הטובים ביותר." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f8340a1a-25a6-4a27-832d-75d000480ed7/id-preview-1ccdd91a--8368f826-05e2-4962-9165-3171fc248052.lovable.app-1777293910895.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f8340a1a-25a6-4a27-832d-75d000480ed7/id-preview-1ccdd91a--8368f826-05e2-4962-9165-3171fc248052.lovable.app-1777293910895.png" },
     ],
     links: [
       {
