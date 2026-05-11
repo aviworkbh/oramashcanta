@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/contact")({
@@ -103,9 +103,9 @@ function Field({ label, name, type = "text", required }: { label: string; name: 
   );
 }
 
-function InfoCard({ icon, title, value }: { icon: React.ReactNode; title: string; value: string }) {
-  return (
-    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary border border-border">
+function InfoCard({ icon, title, value, href, external }: { icon: React.ReactNode; title: string; value: string; href?: string; external?: boolean }) {
+  const content = (
+    <>
       <div
         className="w-11 h-11 rounded-xl flex items-center justify-center text-gold-foreground shrink-0"
         style={{ background: "var(--gradient-gold)" }}
@@ -116,6 +116,15 @@ function InfoCard({ icon, title, value }: { icon: React.ReactNode; title: string
         <div className="text-xs uppercase tracking-wider text-muted-foreground mb-0.5">{title}</div>
         <div className="font-semibold text-primary">{value}</div>
       </div>
-    </div>
+    </>
   );
+  const cls = "flex items-start gap-4 p-5 rounded-2xl bg-secondary border border-border transition hover:border-gold";
+  if (href) {
+    return (
+      <a href={href} className={cls} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+        {content}
+      </a>
+    );
+  }
+  return <div className={cls}>{content}</div>;
 }
