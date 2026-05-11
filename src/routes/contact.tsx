@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/contact")({
@@ -76,9 +76,9 @@ function ContactPage() {
 
         {/* Info */}
         <div className="lg:col-span-2 space-y-4">
-          <InfoCard icon={<Phone className="w-5 h-5" />} title="טלפון" value="050-000-0000" />
-          <InfoCard icon={<Mail className="w-5 h-5" />} title="דוא״ל" value="ora@mortgage.co.il" />
-          <InfoCard icon={<MapPin className="w-5 h-5" />} title="כתובת המשרד" value="רחוב הרצל 1, תל אביב" />
+          <InfoCard icon={<Phone className="w-5 h-5" />} title="טלפון" value="053-388-6710" href="tel:0533886710" />
+          <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="וואטסאפ" value="שלחו הודעה ישירה" href="https://wa.me/972533886710" external />
+          <InfoCard icon={<Mail className="w-5 h-5" />} title="דוא״ל" value="orarozen1@gmail.com" href="mailto:orarozen1@gmail.com" />
           <InfoCard icon={<Clock className="w-5 h-5" />} title="שעות פעילות" value="א׳-ה׳ 09:00-19:00 | ו׳ 09:00-13:00" />
         </div>
       </div>
@@ -103,9 +103,9 @@ function Field({ label, name, type = "text", required }: { label: string; name: 
   );
 }
 
-function InfoCard({ icon, title, value }: { icon: React.ReactNode; title: string; value: string }) {
-  return (
-    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary border border-border">
+function InfoCard({ icon, title, value, href, external }: { icon: React.ReactNode; title: string; value: string; href?: string; external?: boolean }) {
+  const content = (
+    <>
       <div
         className="w-11 h-11 rounded-xl flex items-center justify-center text-gold-foreground shrink-0"
         style={{ background: "var(--gradient-gold)" }}
@@ -116,6 +116,15 @@ function InfoCard({ icon, title, value }: { icon: React.ReactNode; title: string
         <div className="text-xs uppercase tracking-wider text-muted-foreground mb-0.5">{title}</div>
         <div className="font-semibold text-primary">{value}</div>
       </div>
-    </div>
+    </>
   );
+  const cls = "flex items-start gap-4 p-5 rounded-2xl bg-secondary border border-border transition hover:border-gold";
+  if (href) {
+    return (
+      <a href={href} className={cls} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+        {content}
+      </a>
+    );
+  }
+  return <div className={cls}>{content}</div>;
 }

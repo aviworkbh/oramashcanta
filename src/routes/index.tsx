@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
-import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft } from "lucide-react";
+import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,15 +22,20 @@ function Index() {
           <div className="space-y-7">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent text-accent-foreground text-xs font-semibold tracking-wider">
               <Sparkles className="w-3.5 h-3.5 text-gold" />
-              ליווי אישי לאורך כל הדרך
+              הדרך הבטוחה למשכנתא שלך
             </span>
-            <h1 className="text-5xl lg:text-7xl font-bold leading-[1.05] text-primary">
-              המשכנתא שלכם.<br />
-              <span className="text-gold italic">בתנאים שלכם.</span>
+            <h1 className="text-4xl lg:text-6xl font-bold leading-[1.1] text-primary">
+              מומחיות שמייצרת חיסכון.<br />
+              <span className="text-gold italic">ליווי שנותן שקט.</span>
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-              אורה רוזנטלר — יועצת משכנתאות מנוסה. אני כאן כדי שתקבלו את ההחלטה הפיננסית הגדולה בחייכם בראש שקט, עם ביטחון מלא ובתנאים הטובים בשוק.
-            </p>
+            <div className="space-y-4 text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+              <p>
+                המשכנתא שלכם היא כנראה ההתחייבות הפיננסית הגדולה בחייכם. אל תשאירו אותה ליד המקרה.
+              </p>
+              <p>
+                לוקחים משכנתא חדשה? שוקלים למחזר משכנתא קיימת? כיועצת משכנתאות מומחית ומנוסה, אני דואגת לאינטרסים שלכם בלבד מול הבנקים. המטרה שלי היא להפוך את התהליך המורכב הזה לפשוט, ברור, והכי חשוב – משתלם עבורכם.
+              </p>
+            </div>
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
                 to="/contact"
@@ -40,12 +45,15 @@ function Index() {
                 קביעת פגישת ייעוץ
                 <ArrowLeft className="w-4 h-4" />
               </Link>
-              <Link
-                to="/calculator"
+              <a
+                href="https://wa.me/972533886710"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                למחשבון משכנתא
-              </Link>
+                <MessageCircle className="w-4 h-4" />
+                שלחו וואטסאפ
+              </a>
             </div>
             <div className="flex items-center gap-8 pt-6">
               <Stat value="+15" label="שנות ניסיון" />
@@ -62,10 +70,10 @@ function Index() {
             />
             <img
               src={heroImg}
-              alt="בית מודרני בשעת שקיעה — סמל לרכישת בית באמצעות משכנתא חכמה"
-              width={1536}
+              alt="איור של בית כתום־כחול נישא בכף יד — סמל לליווי בטוח אל המשכנתא"
+              width={1280}
               height={1024}
-              className="relative rounded-[2rem] shadow-[var(--shadow-elegant)] object-cover w-full aspect-[4/3]"
+              className="relative rounded-[2rem] shadow-[var(--shadow-elegant)] object-contain w-full aspect-square bg-card p-6"
             />
           </div>
         </div>
@@ -74,24 +82,24 @@ function Index() {
       {/* VALUE PROPS */}
       <section className="container mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-4">למה לבחור בי?</h2>
-          <p className="text-muted-foreground text-lg">אני לא עובדת בשביל הבנקים. אני עובדת בשבילכם.</p>
+          <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-4">מה אתם מקבלים?</h2>
+          <p className="text-muted-foreground text-lg">אני מלווה אתכם צעד אחר צעד, מנתחת את הצרכים הייחודיים שלכם, ובונה תמהיל פיננסי מדויק שיחסוך לכם זמן, כאב ראש, והרבה הרבה כסף.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           <FeatureCard
             icon={<TrendingDown className="w-7 h-7" />}
-            title="חיסכון של עשרות אלפי שקלים"
-            text="ניתוח מעמיק והשוואה בין כל הבנקים כדי להשיג עבורכם את הריבית הנמוכה ביותר."
+            title="חיסכון מקסימלי"
+            text="ניהול משא ומתן נחוש מול הבנקים להשגת הריביות והתנאים הטובים ביותר עבורכם."
           />
           <FeatureCard
             icon={<ShieldCheck className="w-7 h-7" />}
-            title="שקיפות מלאה"
-            text="ללא אותיות קטנות. תקבלו הסברים ברורים על כל מסלול וכל החלטה לאורך התהליך."
+            title="שקט נפשי"
+            text="בירוקרטיה? תורים? טפסים? תשאירו את זה לי. אתם מתפנים לחלום על הבית החדש."
           />
           <FeatureCard
             icon={<Sparkles className="w-7 h-7" />}
-            title="ליווי אישי מהיום הראשון"
-            text="מהפגישה הראשונה ועד החתימה — אני זמינה לכל שאלה, בלי בירוקרטיה ובלי הפתעות."
+            title="התאמה אישית"
+            text="בניית מסלול שמתאים במדויק ליכולות ההחזר שלכם, היום ובעתיד — בלי הפתעות."
           />
         </div>
       </section>
