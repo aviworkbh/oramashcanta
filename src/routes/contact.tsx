@@ -76,9 +76,9 @@ function ContactPage() {
 
         {/* Info */}
         <div className="lg:col-span-2 space-y-4">
-          <InfoCard icon={<Phone className="w-5 h-5" />} title="טלפון" value="050-000-0000" />
-          <InfoCard icon={<Mail className="w-5 h-5" />} title="דוא״ל" value="ora@mortgage.co.il" />
-          <InfoCard icon={<MapPin className="w-5 h-5" />} title="כתובת המשרד" value="רחוב הרצל 1, תל אביב" />
+          <InfoCard icon={<Phone className="w-5 h-5" />} title="טלפון" value="053-388-6710" href="tel:0533886710" />
+          <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="וואטסאפ" value="שלחו הודעה ישירה" href="https://wa.me/972533886710" external />
+          <InfoCard icon={<Mail className="w-5 h-5" />} title="דוא״ל" value="orarozen1@gmail.com" href="mailto:orarozen1@gmail.com" />
           <InfoCard icon={<Clock className="w-5 h-5" />} title="שעות פעילות" value="א׳-ה׳ 09:00-19:00 | ו׳ 09:00-13:00" />
         </div>
       </div>
