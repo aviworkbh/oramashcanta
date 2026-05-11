@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import logo from "@/assets/logo.png";
 
 function NotFoundComponent() {
   return (
@@ -84,15 +85,19 @@ function SiteHeader() {
     { to: "/", label: "בית" },
     { to: "/about", label: "אודות" },
     { to: "/calculator", label: "מחשבון משכנתא" },
+    { to: "/reviews", label: "ביקורות" },
     { to: "/contact", label: "יצירת קשר" },
   ] as const;
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-        <Link to="/" className="flex flex-col leading-none">
-          <span className="font-display text-2xl font-bold text-primary">אורה רוזנטלר</span>
-          <span className="text-[11px] tracking-[0.25em] text-gold uppercase mt-1">ייעוץ משכנתאות</span>
+        <Link to="/" className="flex items-center gap-3 leading-none">
+          <img src={logo} alt="לוגו אורה רוזנטלר ייעוץ משכנתאות" className="h-14 w-auto" width={56} height={56} />
+          <div className="flex flex-col">
+            <span className="font-display text-xl font-bold text-primary">אורה רוזנטלר</span>
+            <span className="text-[10px] tracking-[0.25em] text-gold uppercase mt-1">ייעוץ משכנתאות</span>
+          </div>
         </Link>
         <nav className="hidden md:flex items-center gap-8">
           {links.map((l) => (
@@ -122,14 +127,24 @@ function SiteFooter() {
   return (
     <footer className="bg-primary text-primary-foreground mt-20">
       <div className="container mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 text-sm">
-        <div>
-          <h3 className="font-display text-xl mb-2">אורה רוזנטלר</h3>
-          <p className="text-primary-foreground/70">יועצת משכנתאות בכירה — ליווי מקצועי, אישי ושקוף לאורך כל הדרך.</p>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="לוגו אורה רוזנטלר" className="h-12 w-auto bg-white rounded-lg p-1" width={48} height={48} />
+            <h3 className="font-display text-xl">אורה רוזנטלר</h3>
+          </div>
+          <p className="text-primary-foreground/70">הדרך הבטוחה למשכנתא שלך — ליווי מקצועי, אישי ושקוף.</p>
         </div>
         <div>
           <h4 className="font-semibold mb-3 text-gold">צרו קשר</h4>
-          <p className="text-primary-foreground/70">טלפון: 050-000-0000</p>
-          <p className="text-primary-foreground/70">דוא״ל: ora@mortgage.co.il</p>
+          <p className="text-primary-foreground/70">
+            טלפון: <a href="tel:0533886710" className="hover:text-gold">053-388-6710</a>
+          </p>
+          <p className="text-primary-foreground/70">
+            וואטסאפ: <a href="https://wa.me/972533886710" target="_blank" rel="noopener noreferrer" className="hover:text-gold">שלחו הודעה</a>
+          </p>
+          <p className="text-primary-foreground/70">
+            דוא״ל: <a href="mailto:orarozen1@gmail.com" className="hover:text-gold">orarozen1@gmail.com</a>
+          </p>
         </div>
         <div>
           <h4 className="font-semibold mb-3 text-gold">שעות פעילות</h4>
