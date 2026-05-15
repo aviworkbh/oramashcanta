@@ -83,10 +83,10 @@ function RootComponent() {
 function SiteHeader() {
   const links = [
     { to: "/", label: "בית" },
-    { to: "/about", label: "אודות" },
     { to: "/calculator", label: "מחשבון משכנתא" },
+    { to: "/about", label: "אודות" },
     { to: "/reviews", label: "ביקורות" },
-    { to: "/contact", label: "יצירת קשר" },
+    { to: "/contact", label: "צור קשר" },
   ] as const;
 
   return (
@@ -94,10 +94,6 @@ function SiteHeader() {
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 leading-none">
           <img src={logo} alt="לוגו אורה רוזנטלר ייעוץ משכנתאות" className="h-14 w-auto" width={56} height={56} />
-          <div className="flex flex-col">
-            <span className="font-display text-xl font-bold text-primary">אורה רוזנטלר</span>
-            <span className="text-[10px] tracking-[0.25em] text-gold uppercase mt-1">ייעוץ משכנתאות</span>
-          </div>
         </Link>
         <nav className="hidden md:flex items-center gap-8">
           {links.map((l) => (
@@ -111,13 +107,6 @@ function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link
-          to="/contact"
-          className="hidden sm:inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-105"
-          style={{ background: "var(--gradient-gold)" }}
-        >
-          קביעת פגישה
-        </Link>
       </div>
     </header>
   );
