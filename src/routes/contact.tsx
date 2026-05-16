@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import logoIcon from "@/assets/logo-icon.png";
+
+const WA_URL = "https://Wa.me/972533886710?text=%D7%94%D7%99%D7%99.%0A%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A4%D7%A8%D7%A1%D7%95%D7%9D+%D7%A2%D7%9C+%D7%99%D7%99%D7%A2%D7%95%D7%A5+%D7%91%D7%AA%D7%97%D7%95%D7%9D+%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90..+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D+%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D+%F0%9F%98%8C";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -29,9 +31,19 @@ function ContactPage() {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-5 gap-10">
-        {/* Form */}
-        <div className="lg:col-span-3 bg-card p-8 lg:p-10 rounded-3xl border border-border shadow-[var(--shadow-elegant)]">
+      <div className="grid lg:grid-cols-2 gap-10 items-center">
+        {/* Logo - left on desktop */}
+        <div className="order-2 lg:order-1 hidden lg:flex items-center justify-center">
+          <img
+            src={logoIcon}
+            alt="לוגו אורה רוזנטלר"
+            className="w-full max-w-md h-auto drop-shadow-2xl"
+            width={512}
+            height={512}
+          />
+        </div>
+        {/* Form - right on desktop */}
+        <div className="order-1 lg:order-2 bg-card p-8 lg:p-10 rounded-3xl border border-border shadow-[var(--shadow-elegant)]">
           {sent ? (
             <div className="text-center py-16">
               <div
@@ -70,16 +82,16 @@ function ContactPage() {
               >
                 שליחת הודעה
               </button>
+              <a
+                href={WA_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center rounded-full px-7 py-4 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                שליחת וואטסאפ
+              </a>
             </form>
           )}
-        </div>
-
-        {/* Info */}
-        <div className="lg:col-span-2 space-y-4">
-          <InfoCard icon={<Phone className="w-5 h-5" />} title="טלפון" value="053-388-6710" href="tel:0533886710" />
-          <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="וואטסאפ" value="שלחו הודעה ישירה" href="https://wa.me/972533886710" external />
-          <InfoCard icon={<Mail className="w-5 h-5" />} title="דוא״ל" value="orarozen1@gmail.com" href="mailto:orarozen1@gmail.com" />
-          <InfoCard icon={<Clock className="w-5 h-5" />} title="שעות פעילות" value="א׳-ה׳ 09:00-19:00 | ו׳ 09:00-13:00" />
         </div>
       </div>
     </section>
@@ -103,28 +115,3 @@ function Field({ label, name, type = "text", required }: { label: string; name: 
   );
 }
 
-function InfoCard({ icon, title, value, href, external }: { icon: React.ReactNode; title: string; value: string; href?: string; external?: boolean }) {
-  const content = (
-    <>
-      <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center text-gold-foreground shrink-0"
-        style={{ background: "var(--gradient-gold)" }}
-      >
-        {icon}
-      </div>
-      <div>
-        <div className="text-xs uppercase tracking-wider text-muted-foreground mb-0.5">{title}</div>
-        <div className="font-semibold text-primary">{value}</div>
-      </div>
-    </>
-  );
-  const cls = "flex items-start gap-4 p-5 rounded-2xl bg-secondary border border-border transition hover:border-gold";
-  if (href) {
-    return (
-      <a href={href} className={cls} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-        {content}
-      </a>
-    );
-  }
-  return <div className={cls}>{content}</div>;
-}
