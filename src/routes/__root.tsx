@@ -91,22 +91,24 @@ function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 leading-none">
-          <img src={logo} alt="לוגו אורה רוזנטלר ייעוץ משכנתאות" className="h-14 w-auto" width={56} height={56} />
-        </Link>
-        <nav className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              activeOptions={{ exact: true }}
-              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors data-[status=active]:text-primary data-[status=active]:font-semibold"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+      <div className="container mx-auto px-6 h-20 flex items-center justify-center">
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-3 leading-none shrink-0">
+            <img src={logo} alt="לוגו אורה רוזנטלר ייעוץ משכנתאות" className="h-14 w-auto" width={56} height={56} />
+          </Link>
+          <nav className="hidden md:flex items-center gap-8">
+            {links.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                activeOptions={{ exact: true }}
+                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors data-[status=active]:text-primary data-[status=active]:font-semibold"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
     </header>
   );
@@ -115,7 +117,7 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="bg-primary text-primary-foreground mt-20">
-      <div className="container mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 text-sm">
+      <div className="container mx-auto px-6 py-12 grid md:grid-cols-2 gap-8 text-sm">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
             <img src={logo} alt="לוגו אורה רוזנטלר" className="h-12 w-auto bg-white rounded-lg p-1" width={48} height={48} />
@@ -124,21 +126,8 @@ function SiteFooter() {
           <p className="text-primary-foreground/70">הדרך הבטוחה למשכנתא שלך — ליווי מקצועי, אישי ושקוף.</p>
         </div>
         <div>
-          <h4 className="font-semibold mb-3 text-gold">צרו קשר</h4>
-          <p className="text-primary-foreground/70">
-            טלפון: <a href="tel:0533886710" className="hover:text-gold">053-388-6710</a>
-          </p>
-          <p className="text-primary-foreground/70">
-            וואטסאפ: <a href="https://wa.me/972533886710" target="_blank" rel="noopener noreferrer" className="hover:text-gold">שלחו הודעה</a>
-          </p>
-          <p className="text-primary-foreground/70">
-            דוא״ל: <a href="mailto:orarozen1@gmail.com" className="hover:text-gold">orarozen1@gmail.com</a>
-          </p>
-        </div>
-        <div>
           <h4 className="font-semibold mb-3 text-gold">שעות פעילות</h4>
-          <p className="text-primary-foreground/70">א׳-ה׳: 09:00 – 19:00</p>
-          <p className="text-primary-foreground/70">ו׳: 09:00 – 13:00</p>
+          <p className="text-primary-foreground/70">א׳-ה׳: 8:00 – 17:30</p>
         </div>
       </div>
       <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/50">

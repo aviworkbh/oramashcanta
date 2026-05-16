@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Star, ExternalLink, ArrowLeft } from "lucide-react";
 
-const GOOGLE_URL = "https://maps.app.goo.gl/xkN3J7B5BqFZ2RNq6";
+const GOOGLE_URL = "https://www.google.com/maps/place//data=!4m3!3m2!1s0x99edd4cee130209:0x5f648033306c2c6c!12e1?source=g.page.m.ia._&laa=nmx-review-solicitation-ia2";
 
 export const Route = createFileRoute("/reviews")({
   head: () => ({

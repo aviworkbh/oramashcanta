@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Phone, Mail, Clock, Heart, Award, Users } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users } from "lucide-react";
+import logoIcon from "@/assets/logo-icon.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,7 +13,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const GOOGLE_URL = "https://maps.app.goo.gl/xkN3J7B5BqFZ2RNq6";
+const GOOGLE_URL = "https://www.google.com/maps/place//data=!4m3!3m2!1s0x99edd4cee130209:0x5f648033306c2c6c!12e1?source=g.page.m.ia._&laa=nmx-review-solicitation-ia2";
+const WA_URL = "https://Wa.me/972533886710?text=%D7%94%D7%99%D7%99.%0A%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A4%D7%A8%D7%A1%D7%95%D7%9D+%D7%A2%D7%9C+%D7%99%D7%99%D7%A2%D7%95%D7%A5+%D7%91%D7%AA%D7%97%D7%95%D7%9D+%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90..+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D+%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D+%F0%9F%98%8C";
 
 function Index() {
   return (
@@ -23,7 +24,7 @@ function Index() {
         <div
           aria-hidden
           className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-10 pointer-events-none"
-          style={{ backgroundImage: `url(${logo})` }}
+          style={{ backgroundImage: `url(${logoIcon})` }}
         />
         <div className="relative container mx-auto px-6 pt-20 pb-24 lg:pt-28 lg:pb-32 max-w-4xl">
           <div className="text-center space-y-7">
@@ -54,7 +55,7 @@ function Index() {
                 <ArrowLeft className="w-4 h-4" />
               </Link>
               <a
-                href="https://wa.me/972533886710"
+                href={WA_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
@@ -290,8 +291,17 @@ function ContactSection() {
           <h2 className="text-4xl lg:text-5xl font-bold mb-4">בואו <span className="italic text-gold">נדבר</span></h2>
           <p className="text-lg text-primary-foreground/80 max-w-xl mx-auto">פגישת ייעוץ ראשונית ללא עלות וללא התחייבות.</p>
         </div>
-        <div className="grid lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-3 bg-card text-foreground p-8 lg:p-10 rounded-3xl shadow-[var(--shadow-elegant)]">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
+          <div className="order-2 lg:order-1 hidden lg:flex items-center justify-center">
+            <img
+              src={logoIcon}
+              alt="לוגו אורה רוזנטלר"
+              className="w-full max-w-md h-auto drop-shadow-2xl"
+              width={512}
+              height={512}
+            />
+          </div>
+          <div className="order-1 lg:order-2 bg-card text-foreground p-8 lg:p-10 rounded-3xl shadow-[var(--shadow-elegant)]">
             {sent ? (
               <div className="text-center py-16">
                 <div className="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center text-gold-foreground text-3xl" style={{ background: "var(--gradient-gold)" }}>✓</div>
@@ -313,12 +323,6 @@ function ContactSection() {
               </form>
             )}
           </div>
-          <div className="lg:col-span-2 space-y-4">
-            <Info icon={<Phone className="w-5 h-5" />} title="טלפון" value="053-388-6710" href="tel:0533886710" />
-            <Info icon={<MessageCircle className="w-5 h-5" />} title="וואטסאפ" value="שלחו הודעה ישירה" href="https://wa.me/972533886710" external />
-            <Info icon={<Mail className="w-5 h-5" />} title="דוא״ל" value="orarozen1@gmail.com" href="mailto:orarozen1@gmail.com" />
-            <Info icon={<Clock className="w-5 h-5" />} title="שעות פעילות" value="א׳-ה׳ 09:00-19:00 | ו׳ 09:00-13:00" />
-          </div>
         </div>
       </div>
     </section>
@@ -336,23 +340,3 @@ function ContactField({ label, name, type = "text", required }: { label: string;
   );
 }
 
-function Info({ icon, title, value, href, external }: { icon: React.ReactNode; title: string; value: string; href?: string; external?: boolean }) {
-  const content = (
-    <>
-      <div className="w-11 h-11 rounded-xl flex items-center justify-center text-gold-foreground shrink-0" style={{ background: "var(--gradient-gold)" }}>{icon}</div>
-      <div>
-        <div className="text-xs uppercase tracking-wider text-primary-foreground/60 mb-0.5">{title}</div>
-        <div className="font-semibold">{value}</div>
-      </div>
-    </>
-  );
-  const cls = "flex items-start gap-4 p-5 rounded-2xl bg-primary-foreground/5 border border-primary-foreground/10 transition hover:border-gold";
-  if (href) {
-    return (
-      <a href={href} className={cls} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-        {content}
-      </a>
-    );
-  }
-  return <div className={cls}>{content}</div>;
-}
