@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ] # שנה ל-"master" אם הענף הראשי שלך נקרא ככה
+    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }} # <-- כאן היה התיקון! (נקודה במקום נקודתיים)
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,7 +38,12 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # שנה ל-'./build' אם הפרויקט לא משתמש ב-Vite
+          # השינוי כאן: בודקים אם יש תיקיית dist, ואם לא - משתמשים בתיקיית build או המקור הקיים של Lovable
+          path: |
+            ${{ sed -n 's/.*"outDir": "\(.*\)".*/\1/p' tsconfig.json 2>/dev/null || echo 'dist' }}
+            ./dist
+            ./build
+            .
 
       - name: Deploy to GitHub Pages
         id: deployment
