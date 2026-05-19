@@ -250,14 +250,15 @@ function AboutSection() {
       </div>
       <div className="grid md:grid-cols-2 gap-10 items-center mb-14">
         <div className="space-y-5 text-lg leading-relaxed text-foreground/90">
-          <p>שמי <strong className="text-primary">אורה רוזנטלר</strong>, יועצת משכנתאות מוסמכת בעלת ותק רב בעולמות הבנקאות והמשכנתאות.</p>
-          <p>במהלך הקריירה שלי ליוויתי משפחות רבות בדרך לבית שלהן — מזוגות צעירים שרוכשים דירה ראשונה, דרך משפרי דיור, ועד למשקיעי נדל״ן.</p>
-          <p>אני מאמינה שמשכנתא נבונה לא נמדדת רק בריבית הנמוכה ביותר, אלא בהתאמה מדויקת ליכולות, לתוכניות ולחלומות שלכם.</p>
+          <p>שמי <strong className="text-primary">אורה רוזנטלר</strong>. יועצת משכנתאות מוסמכת.</p>
+          <p>לאחר עיסוק מושך בתחום שיווק וייעוץ נדל״ן, הבנתי שהתחום בו אוכל לקבל גם סיפוק ותחושת שליחות, הוא תחום המשכנתאות. המטרה שלי היא לתת ערך מוסף לעבודה ולרווח שלי — על ידי שאוכל לעזור לאנשים לחסוך את כספם, להיזהר מסיכונים ולהגיע למינימום ההוצאות האפשרי בלקיחת משכנתא.</p>
+          <p>חברה בהתאחדות יועצי המשכנתאות, מתמחה במשכנתאות מורכבות, מחזור משכנתא, בתהליכים מול בנקים ועוד.</p>
+          <p>אני כאן לקחת עבורכם את העול בכל תהליך המשכנתא, ולהשאיר עבורכם את החיסכון, את השקט הנפשי ויכולת להתמקד בשאר הדברים החשובים לכם.</p>
         </div>
         <div className="aspect-square rounded-3xl shadow-[var(--shadow-elegant)] flex items-center justify-center" style={{ background: "var(--gradient-hero)" }}>
           <div className="text-center text-primary-foreground p-10">
             <div className="text-7xl font-display italic text-gold mb-3">״</div>
-            <p className="text-xl font-display italic leading-relaxed">כל לקוח הוא עולם ומלואו. אין משכנתא אחת שמתאימה לכולם — יש את המשכנתא הנכונה לכם.</p>
+            <p className="text-xl font-display italic leading-relaxed">משכנתא היא לא כמו עניבה בה אתם בוחרים צבע שמתאים לכם. משכנתא היא כמו נעליים — היא צריכה להתאים בדיוק למידה שלכם.</p>
             <div className="mt-6 text-gold font-semibold">— אורה רוזנטלר</div>
           </div>
         </div>
