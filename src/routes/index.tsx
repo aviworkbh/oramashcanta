@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
@@ -20,7 +20,7 @@ function Index() {
   return (
     <>
       {/* HERO with logo as soft background */}
-      <section className="relative overflow-hidden">
+      <section id="home" className="relative overflow-hidden scroll-mt-24">
         <div
           aria-hidden
           className="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-10 pointer-events-none"
@@ -46,14 +46,14 @@ function Index() {
               </p>
             </div>
             <div className="flex flex-wrap gap-4 justify-center pt-2">
-              <Link
-                to="/contact"
+              <a
+                href="#contact"
                 className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-105"
                 style={{ background: "var(--gradient-gold)" }}
               >
                 קביעת פגישת ייעוץ
                 <ArrowLeft className="w-4 h-4" />
-              </Link>
+              </a>
               <a
                 href={WA_URL}
                 target="_blank"
@@ -69,7 +69,7 @@ function Index() {
       </section>
 
       {/* VALUE PROPS */}
-      <section className="container mx-auto px-6 py-20">
+      <section id="services" className="container mx-auto px-6 py-20 scroll-mt-24">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-4">מה אתם מקבלים?</h2>
           <p className="text-muted-foreground text-lg">ליווי מלא מהשלב הראשון ועד החתימה — בלי הפתעות.</p>
@@ -88,9 +88,9 @@ function Index() {
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">השירותים <span className="text-gold italic">שלי</span></h2>
               <p className="text-primary-foreground/70 text-lg mb-8">מגוון פתרונות פיננסיים המותאמים בדיוק לצרכים ולמטרות שלכם.</p>
-              <Link to="/about" className="inline-flex items-center gap-2 text-gold font-semibold hover:gap-4 transition-all">
+              <a href="#about" className="inline-flex items-center gap-2 text-gold font-semibold hover:gap-4 transition-all">
                 קראו עוד עליי <ArrowLeft className="w-4 h-4" />
-              </Link>
+              </a>
             </div>
             <ul className="space-y-4">
               {[
@@ -151,7 +151,7 @@ function CalculatorSection() {
   const fmt = (n: number) => "₪ " + Math.round(n).toLocaleString("he-IL");
 
   return (
-    <section id="calculator" className="container mx-auto px-6 py-20 max-w-6xl">
+    <section id="calculator" className="container mx-auto px-6 py-20 max-w-6xl scroll-mt-24">
       <div className="text-center mb-12">
         <span className="inline-flex items-center gap-2 text-xs tracking-[0.3em] text-gold uppercase mb-4">
           <Calculator className="w-4 h-4" /> מחשבון משכנתא
@@ -184,9 +184,9 @@ function CalculatorSection() {
           </div>
           <div className="pt-8 mt-8 border-t border-primary-foreground/20">
             <p className="text-sm text-primary-foreground/70 mb-4">* החישוב הוא הערכה כללית בלבד. רוצים תכנון מדויק וריבית טובה יותר?</p>
-            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] hover:scale-105 transition-transform" style={{ background: "var(--gradient-gold)" }}>
+            <a href="#contact" className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] hover:scale-105 transition-transform" style={{ background: "var(--gradient-gold)" }}>
               דברו איתי לייעוץ אישי <ArrowLeft className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -214,7 +214,7 @@ const reviewsList = [
 
 function ReviewsSection() {
   return (
-    <section id="reviews" className="bg-secondary py-20">
+    <section id="reviews" className="bg-secondary py-20 scroll-mt-24">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-14">
           <span className="inline-block text-xs tracking-[0.3em] text-gold uppercase mb-4">ביקורות לקוחות</span>
@@ -243,7 +243,7 @@ function ReviewsSection() {
 
 function AboutSection() {
   return (
-    <section id="about" className="container mx-auto px-6 py-20 max-w-5xl">
+    <section id="about" className="container mx-auto px-6 py-20 max-w-5xl scroll-mt-24">
       <div className="text-center mb-12">
         <span className="inline-block text-xs tracking-[0.3em] text-gold uppercase mb-4">אודות</span>
         <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-4">הסיפור <span className="italic text-gold">שלי</span></h2>
@@ -284,7 +284,7 @@ function Value({ icon, title, text }: { icon: React.ReactNode; title: string; te
 function ContactSection() {
   const [sent, setSent] = useState(false);
   return (
-    <section id="contact" className="bg-primary text-primary-foreground py-20">
+    <section id="contact" className="bg-primary text-primary-foreground py-20 scroll-mt-24">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-14">
           <span className="inline-block text-xs tracking-[0.3em] text-gold uppercase mb-4">צור קשר</span>
