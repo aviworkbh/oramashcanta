@@ -56,7 +56,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="he" dir="rtl">
+    <html lang="he" dir="rtl" className="scroll-smooth">
       <head>
         <HeadContent />
       </head>
@@ -82,30 +82,29 @@ function RootComponent() {
 
 function SiteHeader() {
   const links = [
-    { to: "/", label: "בית" },
-    { to: "/calculator", label: "מחשבון משכנתא" },
-    { to: "/about", label: "אודות" },
-    { to: "/reviews", label: "ביקורות" },
-    { to: "/contact", label: "צור קשר" },
+    { hash: "home", label: "בית" },
+    { hash: "calculator", label: "מחשבון משכנתא" },
+    { hash: "about", label: "אודות" },
+    { hash: "reviews", label: "ביקורות" },
+    { hash: "contact", label: "צור קשר" },
   ] as const;
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
       <div className="container mx-auto px-6 h-20 flex items-center justify-center">
         <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-3 leading-none shrink-0">
+          <Link to="/" hash="home" className="flex items-center gap-3 leading-none shrink-0">
             <img src={logo} alt="לוגו אורה רוזנטלר ייעוץ משכנתאות" className="h-14 w-auto" width={56} height={56} />
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                activeOptions={{ exact: true }}
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors data-[status=active]:text-primary data-[status=active]:font-semibold"
+              <a
+                key={l.hash}
+                href={`#${l.hash}`}
+                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
               >
                 {l.label}
-              </Link>
+              </a>
             ))}
           </nav>
         </div>
