@@ -1,4 +1,6 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import logo from "@/assets/logo.png";
@@ -84,14 +86,16 @@ function SiteHeader() {
   const links = [
     { hash: "home", label: "בית" },
     { hash: "calculator", label: "מחשבון משכנתא" },
-    { hash: "about", label: "אודות" },
     { hash: "reviews", label: "ביקורות" },
+    { hash: "about", label: "אודות" },
     { hash: "contact", label: "צור קשר" },
   ] as const;
 
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-center">
+      <div className="container mx-auto px-6 h-20 flex items-center justify-between md:justify-center">
         <div className="flex items-center gap-8">
           <Link to="/" hash="home" className="flex items-center gap-3 leading-none shrink-0">
             <img src={logo} alt="לוגו אורה רוזנטלר ייעוץ משכנתאות" className="h-14 w-auto" width={56} height={56} />
@@ -108,7 +112,32 @@ function SiteHeader() {
             ))}
           </nav>
         </div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md text-primary hover:bg-accent transition-colors"
+          aria-label="תפריט"
+          aria-expanded={open}
+        >
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
+      {open && (
+        <nav className="md:hidden border-t border-border bg-background/95 backdrop-blur-lg">
+          <div className="container mx-auto px-6 py-3 flex flex-col">
+            {links.map((l) => (
+              <a
+                key={l.hash}
+                href={`#${l.hash}`}
+                onClick={() => setOpen(false)}
+                className="py-3 text-base font-medium text-foreground/85 hover:text-primary transition-colors border-b border-border/50 last:border-0"
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
