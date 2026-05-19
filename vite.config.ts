@@ -8,6 +8,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   vite: {
-    base: '/oramashcanta/',
+    // הבדיקה החכמה: אם אנחנו ב-GitHub Actions נשתמש בנתיב הפרויקט, אחרת (כמו ב-Vercel) בשורש הכללי
+    base: process.env.GITHUB_ACTIONS ? '/oramashcanta/' : '/',
   }
 });
