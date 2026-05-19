@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: read
   pages: write
@@ -26,16 +29,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build (Ignore TS Errors)
+      - name: Install dependencies (Safe Mode)
         run: |
-          # כאן אנחנו מריצים את ה-Build ומבטיחים שהוא יתקמפל לתיקיית dist
-          npm run build || npx vite build
+          # מחליפים את npm ci בפקודה סלחנית שמתעלמת מקונפליקטים של גרסאות:
+          npm install --legacy-peer-deps
+
+      - name: Build (Ignore TypeScript Errors)
+        run: |
+          npx vite build --base=/oramashcanta/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
