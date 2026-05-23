@@ -1,9 +1,13 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, Mail } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import logo from "@/assets/logo.png";
+
+const WA_URL = "https://Wa.me/972533886710?text=%D7%94%D7%99%D7%99.%0A%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A4%D7%A8%D7%A1%D7%95%D7%9D+%D7%A2%D7%9C+%D7%99%D7%99%D7%A2%D7%95%D7%A5+%D7%91%D7%AA%D7%97%D7%95%D7%9D+%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90..+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D+%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D+%F0%9F%98%8C";
+const PHONE = "053-388-6710";
+const EMAIL = "ora.mashcanta@gmail.com";
 
 function NotFoundComponent() {
   return (
@@ -145,13 +149,33 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="bg-primary text-primary-foreground mt-20">
-      <div className="container mx-auto px-6 py-12 grid md:grid-cols-2 gap-8 text-sm">
+      <div className="container mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 text-sm">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
             <img src={logo} alt="לוגו אורה רוזנטלר" className="h-12 w-auto bg-white rounded-lg p-1" width={48} height={48} />
             <h3 className="font-display text-xl">אורה רוזנטלר</h3>
           </div>
           <p className="text-primary-foreground/70">הדרך הבטוחה למשכנתא שלך — ליווי מקצועי, אישי ושקוף.</p>
+        </div>
+        <div>
+          <h4 className="font-semibold mb-3 text-gold">צור קשר</h4>
+          <ul className="space-y-2 text-primary-foreground/80">
+            <li>
+              <a href={`tel:${PHONE.replace(/-/g, "")}`} className="inline-flex items-center gap-2 hover:text-gold transition-colors">
+                <Phone className="w-4 h-4" /> {PHONE}
+              </a>
+            </li>
+            <li>
+              <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-gold transition-colors">
+                <MessageCircle className="w-4 h-4" /> וואטסאפ
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${EMAIL}`} className="inline-flex items-center gap-2 hover:text-gold transition-colors break-all">
+                <Mail className="w-4 h-4" /> {EMAIL}
+              </a>
+            </li>
+          </ul>
         </div>
         <div>
           <h4 className="font-semibold mb-3 text-gold">שעות פעילות</h4>
