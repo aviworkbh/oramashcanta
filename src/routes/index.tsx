@@ -293,11 +293,11 @@ function ContactSection() {
           <p className="text-lg text-primary-foreground/80 max-w-xl mx-auto">פגישת ייעוץ ראשונית ללא עלות וללא התחייבות.</p>
         </div>
         <div className="grid lg:grid-cols-2 gap-8 items-center">
-          <div className="order-2 lg:order-1 hidden lg:flex items-center justify-center">
+          <div className="order-2 lg:order-1 hidden lg:flex items-center justify-center h-full w-full">
             <img
               src={logoIcon}
               alt="לוגו אורה רוזנטלר"
-              className="w-full max-w-md h-auto drop-shadow-2xl"
+              className="w-full h-full max-h-[600px] object-contain drop-shadow-2xl"
               width={512}
               height={512}
             />
@@ -321,6 +321,15 @@ function ContactSection() {
                 <button type="submit" className="w-full rounded-full px-7 py-4 text-base font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]" style={{ background: "var(--gradient-gold)" }}>
                   שליחת הודעה
                 </button>
+                <a
+                  href={WA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  שלחו וואטסאפ
+                </a>
               </form>
             )}
           </div>
