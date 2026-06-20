@@ -4,6 +4,7 @@ import { Menu, X, Phone, MessageCircle, Mail } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import logo from "@/assets/logo.png";
+import { AccessibilityMenu } from "@/components/AccessibilityMenu";
 
 const WA_URL = "https://Wa.me/972533886710?text=%D7%94%D7%99%D7%99.%0A%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A4%D7%A8%D7%A1%D7%95%D7%9D+%D7%A2%D7%9C+%D7%99%D7%99%D7%A2%D7%95%D7%A5+%D7%91%D7%AA%D7%97%D7%95%D7%9D+%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90..+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D+%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D+%F0%9F%98%8C";
 const PHONE = "053-388-6710";
@@ -82,6 +83,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
+      <AccessibilityMenu />
     </div>
   );
 }
