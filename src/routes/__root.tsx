@@ -185,7 +185,10 @@ function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/50">
-        © {new Date().getFullYear()} אורה רוזנטלר — כל הזכויות שמורות
+        © {new Date().getFullYear()} אורה רוזנטלר — כל הזכויות שמורות ·{" "}
+        <Link to="/accessibility" className="hover:text-gold underline">
+          הצהרת נגישות
+        </Link>
       </div>
     </footer>
   );
