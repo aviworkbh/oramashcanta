@@ -1,7 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tanstack-start-app",
-  "compatibility_date": "2025-09-24",
+  "compatibility_date": "2026-06-22",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  "main": "dist/server/index.mjs",
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS"
+  },
+  "no_bundle": true,
+  "observability": {
+    "enabled": true
+  }
 }
