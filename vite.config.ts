@@ -7,6 +7,19 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Force Nitro to emit a Cloudflare Worker bundle even outside the Lovable sandbox.
+  nitro: {
+    preset: "cloudflare-module",
+    output: {
+      dir: "dist",
+      serverDir: "dist/server",
+      publicDir: "dist/client",
+    },
+    cloudflare: {
+      nodeCompat: true,
+      deployConfig: true,
+    },
+  },
   vite: {
     // הבדיקה החכמה: אם אנחנו ב-GitHub Actions נשתמש בנתיב הפרויקט, אחרת (כמו ב-Vercel) בשורש הכללי
     base: process.env.GITHUB_ACTIONS ? '/oramashcanta/' : '/',
