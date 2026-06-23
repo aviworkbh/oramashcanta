@@ -1,8 +1,7 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRoute, HeadContent } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Phone, MessageCircle, Mail } from "lucide-react";
 
-import appCss from "../styles.css?url";
 import logo from "@/assets/logo.png";
 import { AccessibilityMenu } from "@/components/AccessibilityMenu";
 
@@ -50,10 +49,6 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f8340a1a-25a6-4a27-832d-75d000480ed7/id-preview-1ccdd91a--8368f826-05e2-4962-9165-3171fc248052.lovable.app-1777293910895.png" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -62,28 +57,14 @@ export const Route = createRootRoute({
       },
     ],
   }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="he" dir="rtl" className="scroll-smooth">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
-
 function RootComponent() {
   return (
     <div className="min-h-screen flex flex-col">
+      <HeadContent />
       <SiteHeader />
       <main className="flex-1">
         <Outlet />
