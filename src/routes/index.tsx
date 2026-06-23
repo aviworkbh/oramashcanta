@@ -28,8 +28,7 @@ function Index() {
         />
         <div className="relative container mx-auto px-6 pt-20 pb-24 lg:pt-28 lg:pb-32 max-w-4xl">
           <div className="text-center space-y-7">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent text-accent-foreground text-xs font-semibold tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-gold" />
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-accent-foreground text-xs font-semibold tracking-wider" style={{ background: "oklch(0.97 0.045 55)" }}>
               הדרך הבטוחה למשכנתא שלך
             </span>
             <h1 className="text-4xl lg:text-6xl font-bold leading-[1.1] text-primary">
