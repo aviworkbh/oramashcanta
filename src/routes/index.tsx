@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 
