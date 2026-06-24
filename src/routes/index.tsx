@@ -283,6 +283,61 @@ function Value({ icon, title, text }: { icon: React.ReactNode; title: string; te
 
 function ContactSection() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setPhone(digits);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (submitting) return;
+    setErrorMsg(null);
+
+    if (!name.trim()) {
+      setErrorMsg("יש להזין שם מלא");
+      return;
+    }
+    if (!phone.trim()) {
+      setErrorMsg("יש להזין מספר טלפון");
+      return;
+    }
+    if (!/^\d+$/.test(phone)) {
+      setErrorMsg("מספר הטלפון חייב לכלול ספרות בלבד");
+      return;
+    }
+    if (phone.length !== 9 && phone.length !== 10) {
+      setErrorMsg("מספר הטלפון חייב להכיל 9 או 10 ספרות");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("https://oram-backend.aviworkbh.workers.dev/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, email, message }),
+      });
+      const data = await res.json().catch(() => null);
+      if (data && data.success === true) {
+        setSent(true);
+        setName(""); setPhone(""); setEmail(""); setMessage("");
+      } else {
+        setErrorMsg("אירעה שגיאה בשליחת הטופס. נסה שוב מאוחר יותר");
+      }
+    } catch {
+      setErrorMsg("אירעה שגיאה בשליחת הטופס. נסה שוב מאוחר יותר");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="bg-primary text-primary-foreground py-20 scroll-mt-24">
       <div className="container mx-auto px-6 max-w-6xl">
@@ -309,16 +364,19 @@ function ContactSection() {
                 <p className="text-muted-foreground">קיבלתי את פנייתכם ואחזור אליכם בהקדם.</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-5">
-                <ContactField label="שם מלא" name="name" required />
-                <ContactField label="טלפון" name="phone" type="tel" required />
-                <ContactField label="דוא״ל" name="email" type="email" />
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <ContactField label="שם מלא" name="name" required value={name} onChange={(e) => setName(e.target.value)} />
+                <ContactField label="טלפון" name="phone" type="tel" required value={phone} onChange={handlePhoneChange} inputMode="numeric" pattern="\d*" />
+                <ContactField label="דוא״ל" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <div>
                   <label className="block text-sm font-semibold text-primary mb-2">איך אוכל לעזור?</label>
-                  <textarea rows={4} required className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-gold transition" placeholder="ספרו לי בקצרה על המשכנתא שאתם מחפשים..." />
+                  <textarea rows={4} required value={message} onChange={(e) => setMessage(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-gold transition" placeholder="ספרו לי בקצרה על המשכנתא שאתם מחפשים..." />
                 </div>
-                <button type="submit" className="w-full rounded-full px-7 py-4 text-base font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02]" style={{ background: "var(--gradient-gold)" }}>
-                  שליחת הודעה
+                {errorMsg && (
+                  <p className="text-sm text-destructive text-center">{errorMsg}</p>
+                )}
+                <button type="submit" disabled={submitting} className="w-full rounded-full px-7 py-4 text-base font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed" style={{ background: "var(--gradient-gold)" }}>
+                  {submitting ? "שולח..." : "שליחת הודעה"}
                 </button>
                 <a
                   href={WA_URL}
@@ -338,13 +396,13 @@ function ContactSection() {
   );
 }
 
-function ContactField({ label, name, type = "text", required }: { label: string; name: string; type?: string; required?: boolean }) {
+function ContactField({ label, name, type = "text", required, value, onChange, inputMode, pattern }: { label: string; name: string; type?: string; required?: boolean; value?: string; onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; inputMode?: "numeric" | "text" | "email" | "tel"; pattern?: string }) {
   return (
     <div>
       <label htmlFor={name} className="block text-sm font-semibold text-primary mb-2">
         {label} {required && <span className="text-gold">*</span>}
       </label>
-      <input id={name} name={name} type={type} required={required} className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-gold transition" />
+      <input id={name} name={name} type={type} required={required} value={value} onChange={onChange} inputMode={inputMode} pattern={pattern} className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-gold transition" />
     </div>
   );
 }
