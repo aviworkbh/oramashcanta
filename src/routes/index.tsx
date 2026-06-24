@@ -290,12 +290,12 @@ function ContactSection() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
     setPhone(digits);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (submitting) return;
     setErrorMsg(null);
@@ -396,7 +396,7 @@ function ContactSection() {
   );
 }
 
-function ContactField({ label, name, type = "text", required, value, onChange, inputMode, pattern }: { label: string; name: string; type?: string; required?: boolean; value?: string; onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; inputMode?: "numeric" | "text" | "email" | "tel"; pattern?: string }) {
+function ContactField({ label, name, type = "text", required, value, onChange, inputMode, pattern }: { label: string; name: string; type?: string; required?: boolean; value?: string; onChange?: (e: ChangeEvent<HTMLInputElement>) => void; inputMode?: "numeric" | "text" | "email" | "tel"; pattern?: string }) {
   return (
     <div>
       <label htmlFor={name} className="block text-sm font-semibold text-primary mb-2">
