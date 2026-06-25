@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
-import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users } from "lucide-react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users, Loader2, User } from "lucide-react";
+import { cn } from "@/lib/utils";
 import logoIcon from "@/assets/logo-icon.png";
 
 export const Route = createFileRoute("/")({
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/")({
 
 const GOOGLE_URL = "https://www.google.com/maps/place//data=!4m3!3m2!1s0x99edd4cee130209:0x5f648033306c2c6c!12e1?source=g.page.m.ia._&laa=nmx-review-solicitation-ia2";
 const WA_URL = "https://Wa.me/972533886710?text=%D7%94%D7%99%D7%99.%0A%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A4%D7%A8%D7%A1%D7%95%D7%9D+%D7%A2%D7%9C+%D7%99%D7%99%D7%A2%D7%95%D7%A5+%D7%91%D7%AA%D7%97%D7%95%D7%9D+%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90..+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D+%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D+%F0%9F%98%8C";
+const REVIEWS_API_URL = "https://oram-backend.aviworkbh.workers.dev/api/reviews";
 
 function Index() {
   return (
@@ -205,13 +207,62 @@ function Slider({ label, value, onChange, min, max, step, display }: { label: st
   );
 }
 
-const reviewsList = [
-  { name: "משפחת לוי", text: "אורה ליוותה אותנו ברכישת הדירה הראשונה. מקצועית, סבלנית ובעיקר חסכה לנו עשרות אלפי שקלים. ממליצים בחום!" },
-  { name: "דנה כהן", text: "מיחזרנו את המשכנתא בעזרת אורה והיא השיגה לנו תנאים שלא חשבנו שאפשריים. שירות אישי ויחס יוצא דופן." },
-  { name: "יוסי ומיכל", text: "אורה הפכה תהליך מורכב ומפחיד למשהו פשוט וברור. תמיד זמינה, תמיד עם תשובה. תודה ענקית!" },
-];
+interface Review {
+  author: string;
+  authorImage?: string;
+  rating: number;
+  text: string;
+  date: string;
+}
+
+interface ReviewsResponse {
+  success: boolean;
+  rating: number;
+  reviewCount: number;
+  reviews: Review[];
+}
+
+function formatReviewDate(dateStr: string): string {
+  try {
+    const [datePart] = dateStr.split(" ");
+    const [month, day, year] = datePart.split("/");
+    return `${day}/${month}/${year}`;
+  } catch {
+    return dateStr;
+  }
+}
 
 function ReviewsSection() {
+  const [reviewsData, setReviewsData] = useState<ReviewsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(REVIEWS_API_URL);
+        if (!response.ok) throw new Error("Failed to fetch reviews");
+        const data: ReviewsResponse = await response.json();
+        if (!cancelled) {
+          if (data.success) {
+            setReviewsData(data);
+          } else {
+            setError(true);
+          }
+        }
+      } catch {
+        if (!cancelled) setError(true);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    fetchReviews();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <section id="reviews" className="bg-secondary py-20 scroll-mt-24">
       <div className="container mx-auto px-6 max-w-6xl">
@@ -219,17 +270,58 @@ function ReviewsSection() {
           <span className="inline-block text-xs tracking-[0.3em] text-gold uppercase mb-4">ביקורות לקוחות</span>
           <h2 className="text-4xl lg:text-5xl font-bold text-primary mb-4">לקוחות <span className="italic text-gold">מספרים</span></h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
-          {reviewsList.map((r) => (
-            <div key={r.name} className="bg-card p-7 rounded-2xl border border-border shadow-[var(--shadow-elegant)]">
-              <div className="flex gap-1 mb-3 text-gold">
-                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+            <Loader2 className="w-8 h-8 animate-spin text-gold mb-3" />
+            <span className="text-sm">טוען ביקורות...</span>
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="text-center py-12 text-foreground/85">
+            <p>Unable to load reviews at the moment.</p>
+          </div>
+        )}
+
+        {!loading && !error && reviewsData && (
+          <>
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 bg-card border border-border text-primary shadow-[var(--shadow-elegant)]">
+                <Star className="w-5 h-5 fill-current text-gold" />
+                <span className="font-bold text-lg">{reviewsData.rating.toFixed(1)}</span>
+                <span className="text-muted-foreground text-sm">({reviewsData.reviewCount} ביקורות)</span>
               </div>
-              <p className="text-foreground/85 leading-relaxed mb-5">{r.text}</p>
-              <div className="font-semibold text-primary">— {r.name}</div>
             </div>
-          ))}
-        </div>
+
+            <div className="grid md:grid-cols-3 gap-6 mb-10">
+              {reviewsData.reviews.map((review, index) => (
+                <div key={index} className="bg-card p-7 rounded-2xl border border-border shadow-[var(--shadow-elegant)]">
+                  <div className="flex gap-1 mb-3 text-gold">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className={cn("w-4 h-4", i < review.rating ? "fill-current" : "text-muted-foreground")} />
+                    ))}
+                  </div>
+                  <p className="text-foreground/85 leading-relaxed mb-5">{review.text}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0">
+                      {review.authorImage ? (
+                        <img src={review.authorImage} alt={review.author} className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-5 h-5 text-muted-foreground" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-semibold text-primary truncate">{review.author}</div>
+                      <div className="text-xs text-muted-foreground">{formatReviewDate(review.date)}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
         <div className="text-center">
           <a href={GOOGLE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] transition-transform hover:scale-105" style={{ background: "var(--gradient-gold)" }}>
             לעמוד הגוגל <ExternalLink className="w-4 h-4" />
@@ -406,4 +498,3 @@ function ContactField({ label, name, type = "text", required, value, onChange, i
     </div>
   );
 }
-
