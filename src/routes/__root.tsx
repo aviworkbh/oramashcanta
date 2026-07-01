@@ -42,7 +42,7 @@ export const Route = createRootRoute({
       { property: "og:title", content: "אורה רוזנטלר — ייעוץ משכנתאות מקצועי" },
       { property: "og:description", content: "אורה רוזנטלר — יועצת משכנתאות מובילה. ליווי אישי, חיסכון בעשרות אלפי שקלים והשגת תנאי המשכנתא הטובים ביותר." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "אורה רוזנטלר — ייעוץ משכנתאות מקצועי" },
       { name: "twitter:description", content: "אורה רוזנטלר — יועצת משכנתאות מובילה. ליווי אישי, חיסכון בעשרות אלפי שקלים והשגת תנאי המשכנתא הטובים ביותר." },
       { property: "og:image", content: "https://oramashcanta.lovable.app/__l5e/assets-v1/4bc49c5c-86a3-4f28-9636-53d8e65fb70a/og-image.png" },
