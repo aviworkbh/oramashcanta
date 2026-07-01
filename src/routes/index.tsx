@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users, Loader2, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoIcon from "@/assets/logo-icon.png";
@@ -232,6 +232,82 @@ function formatReviewDate(dateStr: string): string {
   }
 }
 
+function ReviewCard({ review }: { review: Review }) {
+  const [expanded, setExpanded] = useState(false);
+  const [isClamped, setIsClamped] = useState(false);
+  const textRef = useRef<HTMLParagraphElement | null>(null);
+
+  useLayoutEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+    const check = () => {
+      // Temporarily unclamp to measure natural height
+      const prev = el.style.webkitLineClamp;
+      el.style.webkitLineClamp = "unset";
+      const natural = el.scrollHeight;
+      el.style.webkitLineClamp = prev;
+      setIsClamped(natural - el.clientHeight > 4);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [review.text]);
+
+  return (
+    <div className="bg-card p-7 rounded-2xl border border-border shadow-[var(--shadow-elegant)] flex flex-col h-full">
+      <div className="flex gap-1 mb-3 text-gold">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star key={i} className={cn("w-4 h-4", i < review.rating ? "fill-current" : "text-muted-foreground")} />
+        ))}
+      </div>
+      <div className="relative flex-1 mb-5">
+        <p
+          ref={textRef}
+          className={cn(
+            "text-foreground/85 leading-relaxed whitespace-pre-line transition-all",
+            !expanded && "overflow-hidden",
+          )}
+          style={
+            !expanded
+              ? { display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical" as const }
+              : undefined
+          }
+        >
+          {review.text}
+        </p>
+        {!expanded && isClamped && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-card to-transparent"
+          />
+        )}
+        {isClamped && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="mt-2 text-sm font-semibold text-gold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
+          >
+            {expanded ? "הצג פחות" : "קרא עוד"}
+          </button>
+        )}
+      </div>
+      <div className="flex items-center gap-3 mt-auto">
+        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0">
+          {review.authorImage ? (
+            <img src={review.authorImage} alt={review.author} className="w-full h-full object-cover" />
+          ) : (
+            <User className="w-5 h-5 text-muted-foreground" />
+          )}
+        </div>
+        <div className="min-w-0">
+          <div className="font-semibold text-primary truncate">{review.author}</div>
+          <div className="text-xs text-muted-foreground">{formatReviewDate(review.date)}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ReviewsSection() {
   const [reviewsData, setReviewsData] = useState<ReviewsResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -294,29 +370,9 @@ function ReviewsSection() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-10">
+            <div className="grid md:grid-cols-3 gap-6 mb-10 items-stretch">
               {reviewsData.reviews.map((review, index) => (
-                <div key={index} className="bg-card p-7 rounded-2xl border border-border shadow-[var(--shadow-elegant)]">
-                  <div className="flex gap-1 mb-3 text-gold">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className={cn("w-4 h-4", i < review.rating ? "fill-current" : "text-muted-foreground")} />
-                    ))}
-                  </div>
-                  <p className="text-foreground/85 leading-relaxed mb-5">{review.text}</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0">
-                      {review.authorImage ? (
-                        <img src={review.authorImage} alt={review.author} className="w-full h-full object-cover" />
-                      ) : (
-                        <User className="w-5 h-5 text-muted-foreground" />
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-primary truncate">{review.author}</div>
-                      <div className="text-xs text-muted-foreground">{formatReviewDate(review.date)}</div>
-                    </div>
-                  </div>
-                </div>
+                <ReviewCard key={index} review={review} />
               ))}
             </div>
           </>
