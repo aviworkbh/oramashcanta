@@ -1,8 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users, Loader2, User } from "lucide-react";
+import { Check, TrendingDown, ShieldCheck, Sparkles, ArrowLeft, ArrowRight, MessageCircle, Calculator, Star, ExternalLink, Mail, Heart, Award, Users, Loader2, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoIcon from "@/assets/logo-icon.png";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -14,7 +27,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const GOOGLE_URL = "https://www.google.com/maps/place//data=!4m3!3m2!1s0x99edd4cee130209:0x5f648033306c2c6c!12e1?source=g.page.m.ia._&laa=nmx-review-solicitation-ia2";
+const GOOGLE_URL = "https://www.google.com/search?q=%D7%90%D7%95%D7%A8%D7%94+%D7%A8%D7%95%D7%96%D7%A0%D7%98%D7%9C%D7%A8+%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90%D7%95%D7%AA+%D7%97%D7%99%D7%A4%D7%94";
 const WA_URL = "https://Wa.me/972533886710?text=%D7%94%D7%99%D7%99.%0A%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A4%D7%A8%D7%A1%D7%95%D7%9D+%D7%A2%D7%9C+%D7%99%D7%99%D7%A2%D7%95%D7%A5+%D7%91%D7%AA%D7%97%D7%95%D7%9D+%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90..+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D+%D7%A0%D7%95%D7%A1%D7%A4%D7%99%D7%9D+%F0%9F%98%8C";
 const REVIEWS_API_URL = "https://oram-backend.aviworkbh.workers.dev/api/reviews";
 
