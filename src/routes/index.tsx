@@ -245,67 +245,69 @@ function formatReviewDate(dateStr: string): string {
   }
 }
 
-function ReviewCard({ review }: { review: Review }) {
-  const [expanded, setExpanded] = useState(false);
-  const [isClamped, setIsClamped] = useState(false);
+function GoogleGIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-hidden>
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z" />
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35 26.7 36 24 36c-5.3 0-9.7-3.4-11.3-8l-6.5 5C9.6 39.6 16.2 44 24 44z" />
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C41 35.5 44 30.2 44 24c0-1.3-.1-2.3-.4-3.5z" />
+    </svg>
+  );
+}
+
+function ReviewCard({ review, onOpen }: { review: Review; onOpen: () => void }) {
   const textRef = useRef<HTMLParagraphElement | null>(null);
+  const [isClamped, setIsClamped] = useState(false);
 
   useLayoutEffect(() => {
     const el = textRef.current;
     if (!el) return;
-    const check = () => {
-      // Temporarily unclamp to measure natural height
-      const prev = el.style.webkitLineClamp;
-      el.style.webkitLineClamp = "unset";
-      const natural = el.scrollHeight;
-      el.style.webkitLineClamp = prev;
-      setIsClamped(natural - el.clientHeight > 4);
-    };
+    const check = () => setIsClamped(el.scrollHeight - el.clientHeight > 4);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, [review.text]);
 
   return (
-    <div className="bg-card p-7 rounded-2xl border border-border shadow-[var(--shadow-elegant)] flex flex-col h-full">
-      <div className="flex gap-1 mb-3 text-gold">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star key={i} className={cn("w-4 h-4", i < review.rating ? "fill-current" : "text-muted-foreground")} />
-        ))}
+    <div className="group relative h-[380px] bg-card rounded-3xl border border-border/60 p-7 flex flex-col shadow-[0_10px_40px_-20px_oklch(0.28_0.08_260/0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_oklch(0.28_0.08_260/0.35)]">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex gap-0.5 text-gold" aria-label={`דירוג ${review.rating} מתוך 5`}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} className={cn("w-4 h-4", i < review.rating ? "fill-current" : "text-muted-foreground/40")} />
+          ))}
+        </div>
+        <GoogleGIcon className="w-5 h-5 opacity-80" />
       </div>
-      <div className="relative flex-1 mb-5">
+
+      <div className="relative flex-1 overflow-hidden">
         <p
           ref={textRef}
-          className={cn(
-            "text-foreground/85 leading-relaxed whitespace-pre-line transition-all",
-            !expanded && "overflow-hidden",
-          )}
-          style={
-            !expanded
-              ? { display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical" as const }
-              : undefined
-          }
+          className="text-foreground/85 leading-relaxed whitespace-pre-line overflow-hidden"
+          style={{ display: "-webkit-box", WebkitLineClamp: 6, WebkitBoxOrient: "vertical" as const }}
         >
           {review.text}
         </p>
-        {!expanded && isClamped && (
+        {isClamped && (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-card to-transparent"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-card via-card/90 to-transparent"
           />
         )}
-        {isClamped && (
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            className="mt-2 text-sm font-semibold text-gold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
-          >
-            {expanded ? "הצג פחות" : "קרא עוד"}
-          </button>
-        )}
       </div>
-      <div className="flex items-center gap-3 mt-auto">
-        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0">
+
+      {isClamped && (
+        <button
+          type="button"
+          onClick={onOpen}
+          className="self-start mt-2 text-sm font-semibold text-gold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
+        >
+          קרא עוד
+        </button>
+      )}
+
+      <div className="flex items-center gap-3 mt-5 pt-5 border-t border-border/60">
+        <div className="w-11 h-11 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0 ring-2 ring-gold/20">
           {review.authorImage ? (
             <img src={review.authorImage} alt={review.author} className="w-full h-full object-cover" />
           ) : (
