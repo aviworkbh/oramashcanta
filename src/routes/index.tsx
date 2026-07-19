@@ -327,6 +327,10 @@ function ReviewsSection() {
   const [reviewsData, setReviewsData] = useState<ReviewsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  const [openReview, setOpenReview] = useState<Review | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -353,6 +357,18 @@ function ReviewsSection() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setSelectedIndex(api.selectedScrollSnap());
+    setScrollSnaps(api.scrollSnapList());
+    onSelect();
+    api.on("select", onSelect);
+    api.on("reInit", () => {
+      setScrollSnaps(api.scrollSnapList());
+      onSelect();
+    });
+  }, [api]);
 
   return (
     <section id="reviews" className="bg-secondary py-20 scroll-mt-24">
@@ -385,10 +401,58 @@ function ReviewsSection() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-10 items-stretch">
-              {reviewsData.reviews.map((review, index) => (
-                <ReviewCard key={index} review={review} />
-              ))}
+            <div className="relative mb-8">
+              <Carousel
+                setApi={setApi}
+                opts={{ align: "start", loop: true, direction: "rtl" }}
+                className="w-full"
+                aria-label="ביקורות לקוחות"
+              >
+                <CarouselContent className="-ml-4 py-2">
+                  {reviewsData.reviews.map((review, index) => (
+                    <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                      <ReviewCard review={review} onOpen={() => setOpenReview(review)} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+
+              <div className="flex items-center justify-center gap-4 mt-8">
+                <button
+                  type="button"
+                  onClick={() => api?.scrollPrev()}
+                  aria-label="הביקורת הקודמת"
+                  className="w-11 h-11 rounded-full bg-card border border-border text-primary flex items-center justify-center shadow-sm hover:bg-gold hover:text-gold-foreground hover:border-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <div className="flex items-center gap-2" role="tablist" aria-label="ניווט ביקורות">
+                  {scrollSnaps.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === selectedIndex}
+                      aria-label={`עבור לביקורת ${i + 1}`}
+                      onClick={() => api?.scrollTo(i)}
+                      className={cn(
+                        "h-2 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-gold",
+                        i === selectedIndex ? "w-6 bg-gold" : "w-2 bg-primary/25 hover:bg-primary/50",
+                      )}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => api?.scrollNext()}
+                  aria-label="הביקורת הבאה"
+                  className="w-11 h-11 rounded-full bg-card border border-border text-primary flex items-center justify-center shadow-sm hover:bg-gold hover:text-gold-foreground hover:border-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </>
         )}
@@ -399,6 +463,38 @@ function ReviewsSection() {
           </a>
         </div>
       </div>
+
+      <Dialog open={!!openReview} onOpenChange={(o) => !o && setOpenReview(null)}>
+        <DialogContent className="max-w-lg" dir="rtl">
+          {openReview && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-right flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0 ring-2 ring-gold/20">
+                    {openReview.authorImage ? (
+                      <img src={openReview.authorImage} alt={openReview.author} className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-5 h-5 text-muted-foreground" />
+                    )}
+                  </div>
+                  <span className="text-primary">{openReview.author}</span>
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex gap-0.5 text-gold">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={cn("w-4 h-4", i < openReview.rating ? "fill-current" : "text-muted-foreground/40")} />
+                  ))}
+                </div>
+                <span className="text-xs text-muted-foreground">{formatReviewDate(openReview.date)}</span>
+              </div>
+              <div className="max-h-[60vh] overflow-y-auto text-foreground/85 leading-relaxed whitespace-pre-line pr-1">
+                {openReview.text}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
